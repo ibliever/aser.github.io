@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adaptive Synergistic Evidence Reasoning for Weakly Supervised Video Anomaly Detection</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <main class="container">
+        <!-- Header Section -->
+        <header class="paper-header">
+            <h1 class="paper-title">Adaptive Synergistic Evidence Reasoning for Weakly Supervised Video Anomaly Detection</h1>
+            <p class="paper-subtitle">An uncertainty-aware audio-visual anomaly detection framework for robust localization under weak supervision.</p>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <a href="paper/paper.pdf" target="_blank" class="btn btn-primary" title="View Paper">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                    </svg>
+                    Paper
+                </a>
+                <span class="btn btn-disabled" title="Code Coming Soon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="16 18 22 12 16 6"></polyline>
+                        <polyline points="8 6 2 12 8 18"></polyline>
+                    </svg>
+                    Code Coming Soon
+                </span>
+            </div>
+        </header>
+
+        <!-- Abstract Section -->
+        <section class="paper-section">
+            <h2 class="section-title">Abstract</h2>
+            <div class="abstract-content">
+                <p>
+                    Weakly supervised video anomaly detection aims to localize abnormal events using only video-level labels, 
+                    and recent approaches further incorporate acoustic cues to complement visual observations in complex 
+                    surveillance scenes. However, existing methods still face two major challenges in real-world surveillance 
+                    scenarios: audio-visual temporal asynchrony and reliability fluctuation across modalities.
+                </p>
+                <p>
+                    Rigid timestamp-level fusion may introduce semantic mismatch when audio and visual cues are not perfectly 
+                    synchronized, while reliability-agnostic fusion may amplify corrupted modality responses caused by 
+                    occlusion, illumination degradation, or background noise. To address these issues, we propose an 
+                    <strong>Adaptive Synergistic Evidence Reasoning (ASER)</strong> framework for weakly supervised 
+                    audio-visual anomaly detection.
+                </p>
+                <p>
+                    Specifically, we design a Feature Extraction and Alignment (FEA) module that embeds cross-modal parameter 
+                    exchange into the hidden-state evolution of state-space models, enabling implicit semantic alignment 
+                    between asynchronous audio and visual streams. Meanwhile, a Boundary Feature Generator (BFG) synthesizes 
+                    ambiguous boundary pseudo-features as out-of-distribution samples to regularize decision boundaries. 
+                    Based on the aligned representations, we further develop an Adaptive Evidence-Semantic Reasoner (AER), 
+                    which estimates modality-specific epistemic uncertainty through evidential neural networks and converts 
+                    uncertainty into dynamic gating weights for reliability-aware fusion. In addition, a Joint-Modal Mutual 
+                    Learning (JML) strategy is introduced to jointly optimize semantic discrimination, feature-manifold 
+                    compactness, and uncertainty-aware boundary regularization.
+                </p>
+                <p>
+                    Extensive experiments on XD-Violence and CCTV-Fights<sub>sub</sub> demonstrate that ASER achieves 
+                    state-of-the-art performance, with <strong>86.68% AP on XD-Violence</strong> and <strong>74.76% AP 
+                    on CCTV-Fights<sub>sub</sub></strong>. Further robustness analyses under modality perturbation and 
+                    temporal shift validate the effectiveness of ASER in noisy and temporally misaligned surveillance 
+                    environments.
+                </p>
+            </div>
+        </section>
+
+        <!-- Key Contributions Section -->
+        <section class="paper-section">
+            <h2 class="section-title">Key Contributions</h2>
+            <div class="contributions-list">
+                <div class="contribution-item">
+                    <div class="contribution-icon">1</div>
+                    <div class="contribution-content">
+                        <p>
+                            We design a <strong>Feature Extraction and Alignment (FEA)</strong> module to alleviate 
+                            audio-visual temporal misalignment and boundary ambiguity under weak supervision. FEA embeds 
+                            a cross-modal parameter exchange mechanism into the hidden-state evolution of state-space 
+                            models (SSMs), enabling heterogeneous modalities to interact during temporal modeling and 
+                            achieve implicit semantic alignment. Meanwhile, a <strong>Boundary Feature Generator (BFG)</strong> 
+                            synthesizes ambiguous boundary pseudo-features as out-of-distribution samples, thereby 
+                            regularizing decision boundaries and improving the separability between normal and anomalous patterns.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="contribution-item">
+                    <div class="contribution-icon">2</div>
+                    <div class="contribution-content">
+                        <p>
+                            We develop an <strong>Adaptive Evidence-Semantic Reasoner (AER)</strong> to handle modality 
+                            reliability fluctuations in complex surveillance scenarios. AER calibrates modality-specific 
+                            evidential distributions with scene-adaptive priors and estimates epistemic uncertainty for 
+                            each modality. The estimated uncertainty is further converted into dynamic gating weights for 
+                            competitive feature fusion, suppressing unreliable modality responses while emphasizing 
+                            high-confidence cues for robust anomaly decision-making.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="contribution-item">
+                    <div class="contribution-icon">3</div>
+                    <div class="contribution-content">
+                        <p>
+                            We propose an <strong>Adaptive Synergistic Evidence Reasoning (ASER)</strong> framework that 
+                            integrates implicit cross-modal alignment with explicit evidential reasoning for multimodal 
+                            weakly supervised anomaly detection. Extensive experiments demonstrate that ASER achieves 
+                            state-of-the-art performance and exhibits strong robustness under noisy and temporally 
+                            misaligned audio-visual conditions.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Method Section -->
+        <section class="paper-section">
+            <h2 class="section-title">Method</h2>
+            <figure class="method-figure">
+                <img src="fig/model.png" alt="Method Overview" class="method-image">
+                <figcaption class="method-caption">
+                    <strong>Figure 1:</strong> Overview of the proposed Adaptive Synergistic Evidential Reasoning (ASER) framework.
+					(a) Feature Extraction and Alignment (FEA): Facilitates implicit audio-visual alignment via SSM-based cross-modal parameter exchange. 
+					(b) Adaptive Evidential-Semantic Reasoner (AER): Leverages epistemic uncertainty to guide noise-robust feature fusion. 
+					(c) Joint Modality Mutual Learning (JML): Integrates multi-dimensional regularization losses to synergistically optimize the consistency
+					and robustness of audio-visual evidence.
+                </figcaption>
+            </figure>
+        </section>
+
+        <!-- Video Demo Section -->
+        <section class="paper-section">
+            <h2 class="section-title">Video Demo</h2>
+            <p class="section-intro">Watch the video demos with real-time anomaly score visualization. As the video plays, the anomaly score curve is drawn progressively.</p>
+            
+            <div class="video-grid">
+                <!-- Video 1: City of Men -->
+                <div class="video-item">
+                    <h3 class="video-title">City of Men (2007)</h3>
+                    <div class="video-wrapper">
+                        <video class="video-player" controls>
+                            <source src="video/City.Of.Men.2007__01-17-27_01-17-59_label_B2-0-0.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-city-of-men"></canvas>
+                    </div>
+                </div>
+
+                <!-- Video 2: Deadpool 2 -->
+                <div class="video-item">
+                    <h3 class="video-title">Deadpool 2 (2018)</h3>
+                    <div class="video-wrapper">
+                        <video class="video-player" controls>
+                            <source src="video/Deadpool.2.2018__01-03-09_01-03-54_label_B4-0-0.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-deadpool"></canvas>
+                    </div>
+                </div>
+
+                <!-- Video 3: Fast Furious -->
+                <div class="video-item">
+                    <h3 class="video-title">Fast & Furious (2009)</h3>
+                    <div class="video-wrapper">
+                        <video class="video-player" controls>
+                            <source src="video/Fast.Furious.2009__00-25-59_00-26-25_label_B1-0-0.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-fast-furious"></canvas>
+                    </div>
+                </div>
+
+                <!-- Video 4: wnd3IYH7x1o -->
+                <div class="video-item">
+                    <h3 class="video-title">wnd3IYH7x1o</h3>
+                    <div class="video-wrapper">
+                        <video class="video-player" controls>
+                            <source src="video/v=wnd3IYH7x1o__1_label_G-0-0.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-fury"></canvas>
+                    </div>
+                </div>
+
+                <!-- Video 5: Taken 3 -->
+                <div class="video-item">
+                    <h3 class="video-title">Taken 3 (2014)</h3>
+                    <div class="video-wrapper">
+                        <video class="video-player" controls>
+                            <source src="video/Taken.3.2014__01-19-13_01-19-30_label_B1-0-0.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-taken3"></canvas>
+                    </div>
+                </div>
+
+                <!-- Video 6: The Bourne Legacy -->
+                <div class="video-item">
+                    <h3 class="video-title">The Bourne Legacy (2012)</h3>
+                    <div class="video-wrapper">
+                        <video class="video-player" controls>
+                            <source src="video/The.Bourne.Legacy.2012__0-39-56_0-40-15_label_G-0-0.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-bourne"></canvas>
+                    </div>
+                </div>
+
+                <!-- Video 7: The World Is Not Enough -->
+                <div class="video-item">
+                    <h3 class="video-title">The World Is Not Enough (1999)</h3>
+                    <div class="video-wrapper">
+                        <video class="video-player" controls>
+                            <source src="video/The.World.Is.Not.Enough.1999__00-10-22_00-10-40_label_G-0-0.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-world"></canvas>
+                    </div>
+                </div>
+
+                <!-- Video 8: hAHXCMRvY_I -->
+                <div class="video-item">
+                    <h3 class="video-title">hAHXCMRvY_I</h3>
+                    <div class="video-wrapper">
+                        <video class="video-player" controls>
+                            <source src="video/v=hAHXCMRvY_I__1_label_G-0-0.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-hahx"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Visualization Section -->
+        <section class="paper-section">
+            <h2 class="section-title">Qualitative Analysis</h2>
+            
+            <!-- t-SNE Visualization -->
+            <figure class="viz-figure">
+                <img src="fig/tsne.png" alt="t-SNE Visualization" class="viz-image viz-large">
+                <figcaption class="viz-caption">
+                    <strong>Figure 2:</strong> t-SNE visualization of feature embeddings under (a) Fighting and (b) Riot scenarios.
+					Blue and Orange points represent abnormal and normal samples, respectively. In each panel, the top-left subplot displays
+					the baseline with entangled distributions. The top-right and bottom-left subplots demonstrate partial improvements in boundary
+					definition by adding ENN or SSM individually. The bottom-right subplot (w SSM, w ENN) achieves the most distinct class separation 
+					and intra-class compactness, validating the synergy of our full model.
+                </figcaption>
+            </figure>
+            
+            <!-- Uncertainty Analysis -->
+            <figure class="viz-figure">
+				<img src="fig/uncertainty.png" alt="Uncertainty Analysis" class="viz-image viz-large">
+				<figcaption class="viz-caption">
+				<strong>Figure 3:</strong> Density of uncertainty distributions across different modalities on the XD-Violence and CCTV-Fights<sub>sub</sub>
+				datasets. The top row (a-c) and bottom row (d-f) display results for the XD-Violence and CCTV-Fights<sub>sub</sub> datasets, respectively.
+				Subfigures (a) and (d) show the uncertainty scores for video (<i>u</i><sup>v</sup>), (b) and (e) for audio (<i>u</i><sup>a</sup>), and (c) and (f) for the fused representation (<i>u</i>).
+				The blue curves represent in-distribution samples, while the red, green, and orange curves denote out-of-distribution (OOD) samples generated with increasing
+				Gaussian noise levels (σ = 1, 10, 100).
+				</figcaption>
+	</figure>
+        </section>
+
+        <!-- Footer -->
+        <footer class="paper-footer">
+            <p>This page provides the project materials for ASER, including the paper, experimental results, visualizations, and related resources.</p>
+        </footer>
+    </main>
+
+    <script>
+        // Video data configuration
+        const videoConfigs = [
+            {
+                id: 'chart-city-of-men',
+                csv: 'video/City.Of.Men.2007__01-17-27_01-17-59_label_B2-0-0.csv',
+                label: 'City of Men',
+                anomalyRanges: [[197, 394]]
+            },
+            {
+                id: 'chart-deadpool',
+                csv: 'video/Deadpool.2.2018__01-03-09_01-03-54_label_B4-0-0.csv',
+                label: 'Deadpool 2',
+                anomalyRanges: [[390, 608]]
+            },
+            {
+                id: 'chart-fast-furious',
+                csv: 'video/Fast.Furious.2009__00-25-59_00-26-25_label_B1-0-0.csv',
+                label: 'Fast & Furious',
+                anomalyRanges: [[240, 622]]
+            },
+            {
+                id: 'chart-fury',
+                csv: 'video/v=wnd3IYH7x1o__1_label_G-0-0.csv',
+                label: 'wnd3IYH7x1o',
+                anomalyRanges: [[260, 440], [746, 1000]]
+            },
+            {
+                id: 'chart-taken3',
+                csv: 'video/Taken.3.2014__01-19-13_01-19-30_label_B1-0-0.csv',
+                label: 'Taken 3',
+                anomalyRanges: [[39, 204]]
+            },
+            {
+                id: 'chart-bourne',
+                csv: 'video/The.Bourne.Legacy.2012__0-39-56_0-40-15_label_G-0-0.csv',
+                label: 'The Bourne Legacy',
+                anomalyRanges: [[24, 119]]
+            },
+            {
+                id: 'chart-world',
+                csv: 'video/The.World.Is.Not.Enough.1999__00-10-22_00-10-40_label_G-0-0.csv',
+                label: 'The World Is Not Enough',
+                anomalyRanges: [[6, 65]]
+            },
+            {
+                id: 'chart-hahx',
+                csv: 'video/v=hAHXCMRvY_I__1_label_G-0-0.csv',
+                label: 'hAHXCMRvY_I',
+                anomalyRanges: [[165, 278]]
+            }
+        ];
+
+        // Store all charts and data
+        const charts = {};
+        const allData = {};
+
+        // Color palette
+        const colors = {
+            line: '#2563eb',
+            fill: 'rgba(37, 99, 235, 0.1)',
+            point: '#2563eb',
+            grid: '#e2e8f0',
+            text: '#64748b',
+            anomaly: 'rgba(251, 146, 60, 0.45)',   // orange background for anomaly regions
+            anomalyBorder: 'rgba(234, 88, 12, 0.6)'
+        };
+
+        // Custom plugin: draw orange background for anomaly frame ranges
+        function makeAnomalyBgPlugin(anomalyRanges, frames) {
+            return {
+                id: 'anomalyBackground',
+                beforeDraw(chart) {
+                    if (!anomalyRanges || anomalyRanges.length === 0 || frames.length === 0) return;
+                    const { ctx, chartArea, scales } = chart;
+                    if (!chartArea) return;
+                    const xScale = scales.x;
+                    ctx.save();
+                    ctx.fillStyle = colors.anomaly;
+                    for (const [start, end] of anomalyRanges) {
+                        const xStart = xScale.getPixelForValue(start);
+                        const xEnd   = xScale.getPixelForValue(end);
+                        const left   = Math.max(xStart, chartArea.left);
+                        const right  = Math.min(xEnd, chartArea.right);
+                        if (right > left) {
+                            ctx.fillRect(left, chartArea.top, right - left, chartArea.bottom - chartArea.top);
+                        }
+                    }
+                    ctx.restore();
+                }
+            };
+        }
+
+        // Initialize charts
+        async function initCharts() {
+            for (const config of videoConfigs) {
+                try {
+                    // Fetch CSV data
+                    const response = await fetch(config.csv);
+                    const text = await response.text();
+                    const lines = text.trim().split('\n');
+                    
+                    const frames = [];
+                    const scores = [];
+                    
+                    // Skip header row (first line is "X,Y")
+                    for (let i = 1; i < lines.length; i++) {
+                        const line = lines[i].trim();
+                        if (!line) continue;
+                        const parts = line.split(',');
+                        if (parts.length >= 2) {
+                            const frame = parseFloat(parts[0]);
+                            const score = parseFloat(parts[1]);
+                            if (!isNaN(frame) && !isNaN(score)) {
+                                frames.push(frame);
+                                scores.push(score);
+                            }
+                        }
+                    }
+                    
+                    allData[config.id] = { frames, scores };
+                    
+                    // Build anomaly background plugin for this chart
+                    const bgPlugin = makeAnomalyBgPlugin(config.anomalyRanges || [], frames);
+
+                    // Create chart
+                    const ctx = document.getElementById(config.id).getContext('2d');
+                    charts[config.id] = new Chart(ctx, {
+                        type: 'line',
+                        plugins: [bgPlugin],
+                        data: {
+                            labels: frames.map(f => f),
+                            datasets: [{
+                                label: 'Anomaly Score',
+                                data: [],
+                                borderColor: colors.line,
+                                backgroundColor: colors.fill,
+                                borderWidth: 2,
+                                fill: true,
+                                tension: 0.3,
+                                pointRadius: 0,
+                                pointHoverRadius: 4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            animation: false,
+                            scales: {
+                                x: {
+                                    type: 'linear',
+                                    title: {
+                                        display: true,
+                                        text: 'Frame',
+                                        color: colors.text
+                                    },
+                                    grid: {
+                                        color: colors.grid
+                                    },
+                                    ticks: {
+                                        color: colors.text,
+                                        maxTicksLimit: 10
+                                    }
+                                },
+                                y: {
+                                    min: 0,
+                                    max: 1.0,
+                                    title: {
+                                        display: true,
+                                        text: 'Anomaly Score',
+                                        color: colors.text
+                                    },
+                                    grid: {
+                                        color: colors.grid
+                                    },
+                                    ticks: {
+                                        color: colors.text
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: false
+                                },
+                                tooltip: {
+                                    enabled: true,
+                                    callbacks: {
+                                        label: function(context) {
+                                            return `Score: ${context.parsed.y.toFixed(4)}`;
+                                        }
+                                    }
+                                }
+                            },
+                            interaction: {
+                                intersect: false,
+                                mode: 'index'
+                            }
+                        }
+                    });
+                } catch (error) {
+                    console.warn(`Failed to load ${config.csv}:`, error);
+                }
+            }
+        }
+
+        // Update chart based on video current time
+        function updateChart(chartId, video) {
+            if (!charts[chartId] || !allData[chartId]) return;
+            
+            if (video.paused || video.ended) return;
+            
+            const { frames, scores } = allData[chartId];
+            const duration = video.duration;
+            const currentTime = video.currentTime;
+            
+            // Calculate which frame we're at based on video progress
+            const progress = currentTime / duration;
+            const maxIndex = Math.floor(progress * frames.length);
+            
+            // Update chart data
+            const chart = charts[chartId];
+            chart.data.datasets[0].data = scores.slice(0, maxIndex + 1);
+            chart.update('none'); // Update without animation for smooth real-time drawing
+        }
+
+        // Setup video event listeners
+        function setupVideoListeners() {
+            document.querySelectorAll('.video-item').forEach(item => {
+                const video = item.querySelector('.video-player');
+                const chartId = item.querySelector('canvas').id;
+                
+                video.addEventListener('timeupdate', () => {
+                    updateChart(chartId, video);
+                });
+                
+                video.addEventListener('seeked', () => {
+                    updateChart(chartId, video);
+                });
+                
+                video.addEventListener('play', () => {
+                    const animate = () => {
+                        if (!video.paused && !video.ended) {
+                            updateChart(chartId, video);
+                            requestAnimationFrame(animate);
+                        }
+                    };
+                    animate();
+                });
+            });
+        }
+
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            initCharts().then(() => {
+                setupVideoListeners();
+            });
+        });
+    </script>
+</body>
+</html>

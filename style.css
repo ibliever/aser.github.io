@@ -1,0 +1,645 @@
+/* ===================================
+   Academic Paper Project Page Styles
+   =================================== */
+
+/* CSS Variables */
+:root {
+    --primary-color: #2563eb;
+    --primary-dark: #1d4ed8;
+    --secondary-color: #64748b;
+    --bg-color: #ffffff;
+    --bg-secondary: #f8fafc;
+    --text-primary: #1e293b;
+    --text-secondary: #475569;
+    --border-color: #e2e8f0;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.3s ease;
+}
+
+/* Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text-primary);
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 24px;
+}
+
+/* ===================================
+   Header Section
+   =================================== */
+.paper-header {
+    text-align: center;
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.paper-title {
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+}
+
+.title-highlight {
+    color: var(--primary-color);
+}
+
+.paper-subtitle {
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--secondary-color);
+    margin-bottom: 28px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+}
+
+.authors {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 28px;
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+}
+
+.author {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.affiliation {
+    color: var(--secondary-color);
+}
+
+.separator {
+    color: var(--border-color);
+    margin: 0 4px;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+    cursor: pointer;
+    border: none;
+}
+
+.btn svg {
+    flex-shrink: 0;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-secondary {
+    background: white;
+    color: var(--text-primary);
+    border: 2px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background: var(--bg-secondary);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn-disabled {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    background: #f1f5f9;
+    color: #94a3b8;
+    border: 2px solid #e2e8f0;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ===================================
+   Teaser Section
+   =================================== */
+.teaser {
+    margin-bottom: 48px;
+}
+
+.teaser-figure {
+    background: white;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+.teaser-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.teaser-caption {
+    padding: 16px 20px;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+}
+
+/* ===================================
+   Paper Sections
+   =================================== */
+.paper-section {
+    margin-bottom: 56px;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 3px solid var(--primary-color);
+    display: inline-block;
+}
+
+/* Abstract */
+.abstract-content {
+    background: white;
+    padding: 32px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    border-left: 4px solid var(--primary-color);
+}
+
+.abstract-content p {
+    margin-bottom: 16px;
+    text-align: justify;
+    color: var(--text-primary);
+}
+
+.abstract-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* Method Section */
+.method-figure {
+    background: white;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    margin-bottom: 32px;
+}
+
+.method-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.method-caption {
+    padding: 16px 20px;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+}
+
+.method-caption strong {
+    color: var(--text-primary);
+}
+
+.method-description {
+    display: grid;
+    gap: 24px;
+}
+
+.method-block {
+    background: white;
+    padding: 24px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+}
+
+.method-block h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 12px;
+}
+
+.method-block p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+/* Results Section */
+.results-figure {
+    background: white;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    margin-bottom: 32px;
+}
+
+.results-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.results-caption {
+    padding: 16px 20px;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+}
+
+.results-caption strong {
+    color: var(--text-primary);
+}
+
+/* Results Grid */
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.result-item {
+    background: white;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-fast);
+}
+
+.result-item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.result-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    padding: 16px;
+}
+
+.result-item figcaption {
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    background: var(--bg-secondary);
+    text-align: center;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Visualization Section */
+.viz-figure {
+    background: white;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    margin-bottom: 32px;
+}
+
+.viz-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.viz-large {
+    padding: 24px;
+}
+
+.viz-caption {
+    padding: 16px 20px;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+}
+
+.viz-caption strong {
+    color: var(--text-primary);
+}
+
+/* BibTeX Section */
+.bibtex-section {
+    margin-bottom: 40px;
+}
+
+.bibtex-content {
+    background: #1e1e1e;
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    overflow-x: auto;
+}
+
+.bibtex-content pre {
+    margin: 0;
+}
+
+.bibtex-content code {
+    font-family: 'JetBrains Mono', 'Fira Code', 'Monaco', monospace;
+    font-size: 0.9rem;
+    color: #d4d4d4;
+    line-height: 1.6;
+    white-space: pre;
+}
+
+/* ===================================
+   Key Contributions Section
+   =================================== */
+.contributions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.contribution-item {
+    display: flex;
+    gap: 20px;
+    background: white;
+    padding: 24px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-fast);
+}
+
+.contribution-item:hover {
+    transform: translateX(4px);
+    box-shadow: var(--shadow-md);
+}
+
+.contribution-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.contribution-content {
+    flex: 1;
+}
+
+.contribution-content p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin: 0;
+}
+
+.contribution-content strong {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* Footer */
+.paper-footer {
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--border-color);
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+}
+
+/* ===================================
+   Responsive Design
+   =================================== */
+@media (max-width: 768px) {
+    .container {
+        padding: 24px 16px;
+    }
+    
+    .paper-title {
+        font-size: 1.75rem;
+    }
+    
+    .authors {
+        flex-direction: column;
+        gap: 4px;
+    }
+    
+    .separator {
+        display: none;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn {
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
+    }
+    
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .method-description {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .paper-title {
+        font-size: 1.5rem;
+    }
+    
+    .abstract-content {
+        padding: 20px;
+    }
+    
+    .method-block {
+        padding: 16px;
+    }
+    
+    .contribution-item {
+        flex-direction: column;
+        gap: 12px;
+        padding: 20px;
+    }
+    
+    .contribution-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+    }
+}
+
+/* ===================================
+   Animations
+   =================================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.paper-section {
+    animation: fadeIn 0.6s ease-out;
+}
+
+.paper-section:nth-child(2) { animation-delay: 0.1s; }
+.paper-section:nth-child(3) { animation-delay: 0.2s; }
+.paper-section:nth-child(4) { animation-delay: 0.3s; }
+.paper-section:nth-child(5) { animation-delay: 0.4s; }
+
+/* Hover Effects for Images */
+.result-item img,
+.method-figure img,
+.results-figure img,
+.viz-figure img {
+    transition: transform var(--transition-normal);
+}
+
+.result-item:hover img,
+.method-figure:hover img,
+.results-figure:hover img,
+.viz-figure:hover img {
+    transform: scale(1.02);
+}
+
+/* ===================================
+   Video Demo Section
+   =================================== */
+.section-intro {
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+    font-size: 1.05rem;
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+.video-item {
+    background: white;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-fast);
+}
+
+.video-item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.video-title {
+    padding: 16px 20px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    margin: 0;
+}
+
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+}
+
+.video-player {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.chart-container {
+    padding: 16px;
+    height: 180px;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Responsive Video Grid */
+@media (max-width: 900px) {
+    .video-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .video-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .chart-container {
+        height: 150px;
+    }
+}
